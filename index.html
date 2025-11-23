@@ -411,6 +411,17 @@
             };
         }
         // ----------------------------------------------------
+        
+        // --- НОВАЯ ФУНКЦИЯ: ПЕРЕНАПРАВЛЕНИЕ ---
+        const ACCESS_ERROR_URL = 'https://u8902054545-design.github.io/access-error/';
+        
+        /**
+         * Перенаправляет пользователя на страницу ошибки доступа.
+         */
+        function redirectToAccessError() {
+            window.location.href = ACCESS_ERROR_URL;
+        }
+        // ------------------------------------
 
 
         // --- УТИЛИТАРНЫЕ ФУНКЦИИ ---
@@ -608,7 +619,8 @@
         const profileButton = document.getElementById('profile-button'); 
         const shiftActionContainer = document.getElementById('shift-action-container'); 
         let isShiftActive = false;
-
+        
+        // Эта функция оставлена для имитации, но обработчики кликов теперь перенаправляют
         function updateShiftState(active) {
             isShiftActive = active;
             const currentTime = formatTime(new Date());
@@ -622,8 +634,7 @@
                 mainActionButton.classList.remove('w-full'); 
                 endShiftButton.style.display = 'flex'; 
                 
-                createNotification('success', `Смена открыта в ${currentTime}`);
-
+                // createNotification('success', `Смена открыта в ${currentTime}`);
             } else {
                 shiftActionContainer.classList.remove('flex', 'space-x-3');
                 
@@ -632,36 +643,37 @@
                 mainActionButton.classList.add('w-full'); 
                 mainActionButton.classList.remove('flex-grow'); 
 
-                createNotification('success', `Смена закрыта в ${currentTime}`);
+                // createNotification('success', `Смена закрыта в ${currentTime}`);
             }
         }
 
         updateShiftState(false);
 
 
-        // --- Обработчики, обернутые в анимацию загрузки ---
+        // --- Обработчики, обернутые в анимацию загрузки и ПЕРЕНАПРАВЛЕНИЯ ---
 
-        // 1. Обработчик для ГЛАВНОЙ кнопки
+        // 1. Обработчик для ГЛАВНОЙ кнопки (Начать смену / Перейти к задачам)
         mainActionButton.addEventListener('click', wrapWithLoading(() => {
-            if (!isShiftActive) {
-                updateShiftState(true);
-            }
+            // Перенаправляем на страницу ошибки доступа после симуляции загрузки
+            redirectToAccessError();
         }));
 
         // 2. Обработчик для кнопки "Завершить смену" (Иконка)
         endShiftButton.addEventListener('click', wrapWithLoading(() => {
-            openBottomSheet(); // Открываем Bottom Sheet
+            // Перенаправляем на страницу ошибки доступа вместо открытия Bottom Sheet
+            redirectToAccessError();
         }));
         
         // 3. Обработчик для кнопки "Завершить" в Bottom Sheet
         confirmEndShiftBtn.addEventListener('click', wrapWithLoading(() => {
-            updateShiftState(false); // Завершаем смену
-            closeBottomSheet();
+            // Перенаправляем на страницу ошибки доступа вместо завершения смены
+            redirectToAccessError();
         }));
         
         // 4. Обработчик для кнопки "Профиль"
         profileButton.addEventListener('click', wrapWithLoading(() => {
-            console.log("Клик по профилю");
+            // Перенаправляем на страницу ошибки доступа
+            redirectToAccessError();
         }));
 
 
@@ -707,12 +719,17 @@
             let target = event.target.closest('.calendar-item');
             if (!target) return;
 
-            if (selectedDateElement) {
+            // Перенаправляем на страницу ошибки доступа после выбора даты
+            redirectToAccessError();
+            
+            // Оригинальная логика выбора даты удалена, но оставим для справки, если нужно будет ее вернуть
+            /* if (selectedDateElement) {
                 selectedDateElement.classList.remove('selected-border');
             }
 
             selectedDateElement = target;
-            selectedDateElement.classList.add('selected-border');
+            selectedDateElement.classList.add('selected-border'); 
+            */
         }));
 
 
@@ -733,11 +750,16 @@
         // 6. Обработчик для Навигационных кнопок, обернутый в анимацию загрузки
         navItems.forEach(item => {
             item.addEventListener('click', wrapWithLoading(() => {
+                // Перенаправляем на страницу ошибки доступа после клика
+                redirectToAccessError();
+                
+                // Оригинальная логика активации меню удалена, но оставим для справки
+                /*
                 navItems.forEach(i => i.classList.remove('active'));
                 item.classList.add('active');
+                */
             }));
         });
     </script>
 </body>
 </html>
-
